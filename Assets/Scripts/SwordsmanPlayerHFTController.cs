@@ -22,6 +22,7 @@ public class SwordsmanPlayerHFTController : MonoBehaviour {
     private HFTInput m_hftInput;
 
     // TODO: camera base rotation
+    //private Quaternion cameraBaseRotation;
     private Quaternion inverseBaseRotation;     // base quaternion of controller (used for swords)
     private Vector3 baseEulerAngles;            // base euler angles of controller (used for ikhandler)
     //private Quaternion lastRotation;
@@ -48,6 +49,10 @@ public class SwordsmanPlayerHFTController : MonoBehaviour {
         m_gamepad.OnDisconnect += Remove;
 
 
+
+        //cameraBaseRotation = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f);
+
+
         //baseRotation = Quaternion.identity;
         inverseBaseRotation = Quaternion.identity;
         //lastRotation = transform.rotation;
@@ -68,8 +73,9 @@ public class SwordsmanPlayerHFTController : MonoBehaviour {
         if (m_hftInput.GetButtonDown("fire1"))
         {
             // adjust sword 
-            inverseBaseRotation = Quaternion.Inverse(m_hftInput.gyro.attitude);
-            baseEulerAngles = m_hftInput.gyro.attitude.eulerAngles;
+            inverseBaseRotation = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f) 
+                * Quaternion.Inverse(m_hftInput.gyro.attitude);
+            //baseEulerAngles = m_hftInput.gyro.attitude.eulerAngles;
             sword.rotation = Quaternion.identity;
         }
         else
@@ -80,9 +86,12 @@ public class SwordsmanPlayerHFTController : MonoBehaviour {
 
 
 
-            Vector3 deltaEulerAngles = q.eulerAngles - baseEulerAngles;
+            //Vector3 deltaEulerAngles = q.eulerAngles - baseEulerAngles;
 
-            ikHandler.eulerAngles = q.eulerAngles - baseEulerAngles;
+            //ikHandler.eulerAngles = q.eulerAngles - baseEulerAngles;
+
+            //ikHandler.rotation = inverseBaseRotation * q;
+            ikHandler.rotation = sword.rotation;
         }
 
         sword.position = hand.position;
