@@ -73,8 +73,10 @@ public class SwordsmanPlayerHFTController : MonoBehaviour {
         if (m_hftInput.GetButtonDown("fire1"))
         {
             // adjust sword 
-            inverseBaseRotation = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f) 
-                * Quaternion.Inverse(m_hftInput.gyro.attitude);
+            //inverseBaseRotation = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f) 
+            //    * Quaternion.Inverse(m_hftInput.gyro.attitude);
+            inverseBaseRotation = Quaternion.Inverse(m_hftInput.gyro.attitude);
+
             //baseEulerAngles = m_hftInput.gyro.attitude.eulerAngles;
             sword.rotation = Quaternion.identity;
         }
@@ -82,7 +84,9 @@ public class SwordsmanPlayerHFTController : MonoBehaviour {
         {
             
             Quaternion q = m_hftInput.gyro.attitude;
-            sword.rotation = inverseBaseRotation * q;
+            //sword.rotation = inverseBaseRotation * q;
+            sword.rotation = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f)
+                            * inverseBaseRotation * q;
 
 
 
