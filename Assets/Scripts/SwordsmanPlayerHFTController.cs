@@ -3,19 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SwordsmanPlayerHFTController : MonoBehaviour {
+    
 
-    //[SerializeField]
-    //public Transform sword;
-    //[SerializeField]
-    //public Transform ikHandler;
-
-    private Transform sword;
     private Transform ikHandler;
-    private Transform hand;
+    private Transform hand;     // child of ikHandler, an empty pivot object
 
-    public float rotationSpeed = 5.0f;
-    public float moveSpeed = 5.0f;
-    public float moveFriction = 0.95f;
+    public Transform sword;
+    private Transform swordEnd;
+
+
+    public Transform handJoint; // joint of the rigged character
+    private Transform handSwordPlaceHolder;
+    private Transform handJointUp;
+
+
+    private Transform debugController;
+
+    private Quaternion handBaseRotation;
 
 
     private HFTGamepad m_gamepad;
@@ -24,8 +28,6 @@ public class SwordsmanPlayerHFTController : MonoBehaviour {
     // TODO: camera base rotation
     //private Quaternion cameraBaseRotation;
     private Quaternion inverseBaseRotation;     // base quaternion of controller (used for swords)
-    private Vector3 baseEulerAngles;            // base euler angles of controller (used for ikhandler)
-    //private Quaternion lastRotation;
 
     private static int s_playerCount = 0;
 
@@ -35,9 +37,13 @@ public class SwordsmanPlayerHFTController : MonoBehaviour {
         m_hftInput = GetComponent<HFTInput>();
 
         ikHandler = transform.FindChild("IkHandler");
-        //sword = ikHandler.FindChild("SwordParent");
-        sword = transform.FindChild("SwordParent");
         hand = ikHandler.FindChild("Hand");
+
+        swordEnd = sword.FindChild("End");
+        handSwordPlaceHolder = handJoint.FindChild("SwordPlaceHolder");
+        handJointUp = handJoint.FindChild("Up");
+
+        debugController = GameObject.Find("Capsule").transform;
 
         int playerNdx = s_playerCount++;
 
@@ -48,14 +54,14 @@ public class SwordsmanPlayerHFTController : MonoBehaviour {
         // Delete ourselves if disconnected
         m_gamepad.OnDisconnect += Remove;
 
-
-
-        //cameraBaseRotation = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f);
-
+        
 
         //baseRotation = Quaternion.identity;
         inverseBaseRotation = Quaternion.identity;
         //lastRotation = transform.rotation;
+
+
+        handBaseRotation = Quaternion.Inverse( handJoint.localRotation );
     }
 
 
@@ -77,7 +83,7 @@ public class SwordsmanPlayerHFTController : MonoBehaviour {
             //    * Quaternion.Inverse(m_hftInput.gyro.attitude);
             inverseBaseRotation = Quaternion.Inverse(m_hftInput.gyro.attitude);
 
-            //baseEulerAngles = m_hftInput.gyro.attitude.eulerAngles;
+            hand.localRotation = Quaternion.identity;
             sword.rotation = Quaternion.identity;
         }
         else
@@ -85,20 +91,48 @@ public class SwordsmanPlayerHFTController : MonoBehaviour {
             
             Quaternion q = m_hftInput.gyro.attitude;
             //sword.rotation = inverseBaseRotation * q;
-            sword.rotation = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f)
+            Quaternion r = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f)
                             * inverseBaseRotation * q;
 
+            sword.rotation = r;
+
+            ikHandler.rotation = r;
+
+            sword.position = handSwordPlaceHolder.position;
+            //hand.rotation = swordPreQ * r;
 
 
-            //Vector3 deltaEulerAngles = q.eulerAngles - baseEulerAngles;
+            //hand.rotation = handBaseRotation * r;
+            //hand.rotation = r;
 
-            //ikHandler.eulerAngles = q.eulerAngles - baseEulerAngles;
+            //handJoint.rotation = r;
+            //handJoint.localRotation = Quaternion.Euler(-90f, 180f, 0f) * r;
 
-            //ikHandler.rotation = inverseBaseRotation * q;
-            ikHandler.rotation = sword.rotation;
+
+            //GetComponent<Animator>().settar
+
+
+
+
+
+            // set hand joint position
+            // rotations are all in world space
+
+            //handJoint.rotation = handJoint.rotation
+            //   * Quaternion.FromToRotation(handJointUp.position - handSwordPlaceHolder.position, swordEnd.position - sword.position);
+
+            //handJoint.rotation = handJoint.rotation
+            //   * Quaternion.FromToRotation(handSwordPlaceHolder.forward, sword.up);
+
+            //handJoint.rotation = handJoint.rotation
+            //   * Quaternion.FromToRotation(debugController.up, sword.up);
+            //hand.rotation = debugController.rotation;
+            hand.localRotation = Quaternion.Inverse( handJoint.parent.rotation ) * Quaternion.FromToRotation(handSwordPlaceHolder.forward, sword.up);
+
+            //hand.rotation = Quaternion.identity;
+
+            //handJoint.localRotation = Quaternion.identity;
         }
-
-        sword.position = hand.position;
 
     }
 
