@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour {
     [SerializeField]
     Transform saddle;
 
+    GameObject hitEffect;
+
 
     private bool dead;
 
@@ -28,6 +30,8 @@ public class Enemy : MonoBehaviour {
 
         attackPrepareZone = GameObject.Find("AttackPrepareZone").GetComponent<Collider>();
         attackZone = GameObject.Find("AttackZone").GetComponent<Collider>();
+
+        hitEffect = GameObject.Find("hitEffect");
 
         attackTarget = Camera.main.gameObject;
     }
@@ -60,9 +64,9 @@ public class Enemy : MonoBehaviour {
         Destroy(gameObject);
     }
 
-        void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PlayerAttack"))
+        if (other.CompareTag("PlayerAttack") && !dead)
         {
             // killed  by player
             //Debug.Log(other.name);
@@ -77,6 +81,11 @@ public class Enemy : MonoBehaviour {
             m_Animator.SetLayerWeight(1, 0);
             //m_Animator.SetTrigger("Damaged");
             m_Animator.SetTrigger("Death");
+
+
+            hitEffect.transform.position = other.gameObject.transform.FindChild("SwordMidPoint").transform.position;
+            hitEffect.GetComponent<ParticleSystem>().Play();
+            hitEffect.GetComponent<AudioSource>().Play();
         }
         else if (other == attackPrepareZone)
         {
