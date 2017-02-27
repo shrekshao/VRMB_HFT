@@ -31,7 +31,7 @@ public class MountedEnemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        rider.transform.position = riderPivot.position;
+        //rider.transform.position = riderPivot.position;
 	}
 
     //public void OnAnimatorMove()

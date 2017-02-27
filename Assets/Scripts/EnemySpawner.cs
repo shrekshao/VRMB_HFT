@@ -6,7 +6,7 @@ public class EnemySpawner : MonoBehaviour {
     [SerializeField]
     GameObject mountedSwordsman;
     
-    [Range(1f, 4f)]
+    [Range(0.1f, 4f)]
     [SerializeField]
     float spawnXRangeMin = 1f;
 
