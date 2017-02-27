@@ -127,7 +127,11 @@ public class SwordsmanPlayerHFTController : MonoBehaviour {
             //handJoint.rotation = handJoint.rotation
             //   * Quaternion.FromToRotation(debugController.up, sword.up);
             //hand.rotation = debugController.rotation;
-            hand.localRotation = Quaternion.Inverse( handJoint.parent.rotation ) * Quaternion.FromToRotation(handSwordPlaceHolder.forward, sword.up);
+            //hand.localRotation = Quaternion.Inverse( handJoint.parent.rotation ) * Quaternion.FromToRotation(handSwordPlaceHolder.forward, sword.up);
+
+            //hand.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            //hand.localRotation = debugController.rotation;
+            hand.localRotation = debugController.rotation * r;
 
             //hand.rotation = Quaternion.identity;
 
