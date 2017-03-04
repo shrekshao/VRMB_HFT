@@ -16,6 +16,12 @@ public class Enemy : MonoBehaviour {
     [SerializeField]
     Transform saddle;
 
+    [SerializeField]
+    GameObject arrow;
+
+    [SerializeField]
+    Transform arrowShootPosition;
+
     GameObject hitEffect;
 
 
@@ -34,6 +40,9 @@ public class Enemy : MonoBehaviour {
         hitEffect = GameObject.Find("hitEffect");
 
         attackTarget = Camera.main.gameObject;
+
+
+        StartCoroutine(ShootArrow());
     }
 	
 	// Update is called once per frame
@@ -57,6 +66,20 @@ public class Enemy : MonoBehaviour {
         }
         
 	}
+
+    IEnumerator ShootArrow()
+    {
+
+        while(true)
+        {
+            yield return new WaitForSeconds(2);
+            Debug.Log("Shoot");
+            GameObject arrow = (GameObject) Instantiate(this.arrow, arrowShootPosition.position + 2f * Vector3.forward, Quaternion.identity);
+
+            arrow.GetComponent<Arrow>().InitVelocity(new Vector3(0f, 3f, 10f));
+        }
+        
+    }
 
     IEnumerator WaitAndDestroy()
     {

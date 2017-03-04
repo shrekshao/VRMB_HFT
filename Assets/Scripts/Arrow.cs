@@ -19,6 +19,12 @@ public class Arrow : MonoBehaviour {
 
         m_rigidBody.velocity = new Vector3(0f, 0f, 10f);
     }
+
+    public void InitVelocity(Vector3 v)  // TODO: rotation
+    {
+        //transform.position = p;
+        GetComponent<Rigidbody>().velocity = v;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -39,7 +45,7 @@ public class Arrow : MonoBehaviour {
     {
         if (flying)
         {
-            Debug.Log("collision");
+            //Debug.Log("collision");
             if (c.collider.CompareTag("Ground"))
             {
                 flying = false;
