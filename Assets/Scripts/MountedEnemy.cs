@@ -12,7 +12,7 @@ public class MountedEnemy : MonoBehaviour {
     [SerializeField]
     GameObject rider;
     
-    Collider gameExitZone;
+    //Collider gameExitZone;
 
     Rigidbody m_Rigidbody;
     Animator m_Animator;
@@ -26,7 +26,7 @@ public class MountedEnemy : MonoBehaviour {
 
         m_Rigidbody.velocity = new Vector3(0f, 0f, 4f);
 
-        gameExitZone = GameObject.Find("GameExitZone").GetComponent<Collider>();
+        //gameExitZone = GameObject.Find("GameExitZone").GetComponent<Collider>();
     }
 	
 	// Update is called once per frame
@@ -48,11 +48,11 @@ public class MountedEnemy : MonoBehaviour {
     //    }
     //}
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other == gameExitZone)
-        {
-            Destroy(gameObject);
-        }
-    }
+    //void OnTriggerEnter(Collider other)
+    //{
+    //    if (other == gameExitZone)
+    //    {
+    //        Destroy(gameObject);
+    //    }
+    //}
 }

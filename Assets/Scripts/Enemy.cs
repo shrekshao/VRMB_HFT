@@ -64,15 +64,16 @@ public class Enemy : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    void OnTriggerEnter(Collider other)
+
+    void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("PlayerAttack") && !dead)
+        if (collision.collider.CompareTag("PlayerAttack") && !dead)
         {
             // killed  by player
             //Debug.Log(other.name);
             dead = true;
-            
-            
+
+
             transform.SetParent(null);
             m_Rigidbody.useGravity = true;
             //m_Rigidbody.velocity = 20f * Vector3.back;
@@ -83,11 +84,38 @@ public class Enemy : MonoBehaviour {
             m_Animator.SetTrigger("Death");
 
 
-            hitEffect.transform.position = other.gameObject.transform.FindChild("SwordMidPoint").transform.position;
+            //hitEffect.transform.position = other.gameObject.transform.FindChild("SwordMidPoint").transform.position;
+            hitEffect.transform.position = collision.contacts[0].point;
             hitEffect.GetComponent<ParticleSystem>().Play();
             hitEffect.GetComponent<AudioSource>().Play();
         }
-        else if (other == attackPrepareZone)
+    }
+
+
+    void OnTriggerEnter(Collider other)
+    {
+        //if (other.CompareTag("PlayerAttack") && !dead)
+        //{
+        //    // killed  by player
+        //    //Debug.Log(other.name);
+        //    dead = true;
+            
+            
+        //    transform.SetParent(null);
+        //    m_Rigidbody.useGravity = true;
+        //    //m_Rigidbody.velocity = 20f * Vector3.back;
+        //    //m_Rigidbody.AddForce(100f * Vector3.back + 10f * Vector3.up, ForceMode.Impulse);
+        //    //m_Rigidbody.AddForce(10f * Vector3.back, ForceMode.Force);\
+        //    m_Animator.SetLayerWeight(1, 0);
+        //    //m_Animator.SetTrigger("Damaged");
+        //    m_Animator.SetTrigger("Death");
+
+
+        //    hitEffect.transform.position = other.gameObject.transform.FindChild("SwordMidPoint").transform.position;
+        //    hitEffect.GetComponent<ParticleSystem>().Play();
+        //    hitEffect.GetComponent<AudioSource>().Play();
+        //}
+        if (other == attackPrepareZone)
         {
             //Debug.Log(other.name);
             if ( 0 < Vector3.Dot( transform.right, attackTarget.transform.position - transform.position ) )
@@ -107,4 +135,6 @@ public class Enemy : MonoBehaviour {
             m_Animator.SetTrigger("SwingAttackBothSide");
         }
     }
+
+
 }
