@@ -68,8 +68,17 @@ public class Arrow : MonoBehaviour {
                 // attach to ground
                 //transform.SetParent(c.collider.transform);
                 //Destroy(gameObject);
+
+                StartCoroutine(WaitAndDestroy());
             }
         }
         
+    }
+
+    IEnumerator WaitAndDestroy()
+    {
+        yield return new WaitForSeconds(3);
+        Destroy(this.anchor.gameObject);
+        Destroy(gameObject);
     }
 }

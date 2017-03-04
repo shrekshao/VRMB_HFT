@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour {
     Transform saddle;
 
     [SerializeField]
-    GameObject arrow;
+    GameObject arrow;   //prefab
 
     [SerializeField]
     Transform arrowShootPosition;
@@ -72,11 +72,11 @@ public class Enemy : MonoBehaviour {
 
         while(true)
         {
-            yield return new WaitForSeconds(2);
-            Debug.Log("Shoot");
+            yield return new WaitForSeconds(3);
+            //Debug.Log("Shoot");
             GameObject arrow = (GameObject) Instantiate(this.arrow, arrowShootPosition.position + 2f * Vector3.forward, Quaternion.identity);
 
-            arrow.GetComponent<Arrow>().InitVelocity(new Vector3(0f, 3f, 10f));
+            arrow.GetComponent<Arrow>().InitVelocity(new Vector3(0f, 8f, 20f));
         }
         
     }
