@@ -9,21 +9,21 @@ using System.Collections.Generic;
 // But you can use this how you please... Make great games... that's what this is about.
 // This code is provided as is. Please discuss this on the Unity Forums if you need help.
 //
-//class TronTrailSection
-//{
-//    public Vector3 point;
-//    public Vector3 upDir;
-//    public float time;
-//    public TronTrailSection()
-//    {
+class TrailSection
+{
+    public Vector3 point;
+    public Vector3 upDir;
+    public float time;
+    public TrailSection()
+    {
 
-//    }
-//    public TronTrailSection(Vector3 p, float t)
-//    {
-//        point = p;
-//        time = t;
-//    }
-//}
+    }
+    public TrailSection(Vector3 p, float t)
+    {
+        point = p;
+        time = t;
+    }
+}
 [RequireComponent(typeof(MeshFilter))]
 public class MySwordTrail : MonoBehaviour
 {
@@ -53,7 +53,7 @@ public class MySwordTrail : MonoBehaviour
     #region Temporary
     Vector3 position;
     float now = 0;
-    TronTrailSection currentSection;
+    TrailSection currentSection;
     Matrix4x4 localSpaceTransform;
     #endregion
 
@@ -69,7 +69,18 @@ public class MySwordTrail : MonoBehaviour
     private Material trailMaterial;
     #endregion
 
-    private List<TronTrailSection> sections = new List<TronTrailSection>();
+    // My custom interpolate
+    [SerializeField]
+    Transform SwordCharacterRoot;
+
+    private Vector3 lastPosition;
+    private Quaternion lastRotation;
+
+    //float dtStep = 0.01f;   // for multiple itterate per frame
+    public const int deltaPerFrame = 5; // actually interpolate d-1 value
+
+
+    private List<TrailSection> sections = new List<TrailSection>();
 
     void Awake()
     {
@@ -81,12 +92,41 @@ public class MySwordTrail : MonoBehaviour
 
 
         StartTrail(0.5f, 0.4f);
+
+        lastPosition = transform.position;
+        lastRotation = transform.rotation;
     }
 
     void Update()
     {
-        Itterate(Time.time);
-        UpdateTrail(Time.time, Time.deltaTime);
+
+        float dt = Time.deltaTime / (float) deltaPerFrame;
+        float it = Time.time;
+        float ct = it;
+
+        Vector3 curPosition = transform.position;
+        Quaternion curRotation = transform.rotation;
+
+        Vector3 dir1 = lastPosition - SwordCharacterRoot.position;
+        Vector3 dir2 = curPosition - SwordCharacterRoot.position;
+
+
+        for (int i = 0; i <= deltaPerFrame; i++)
+        {
+            float u = (float)i / deltaPerFrame;
+            transform.position = SwordCharacterRoot.position + Vector3.Slerp( dir1, dir2 , u );
+            transform.rotation = Quaternion.Slerp(lastRotation, curRotation, u);
+            Itterate(it);
+            it += dt;
+        }
+
+        transform.position = curPosition;
+        transform.rotation = curRotation;
+
+        UpdateTrail(ct, Time.deltaTime);
+
+        lastPosition = transform.position;
+        lastRotation = transform.rotation;
     }
 
 
@@ -133,7 +173,7 @@ public class MySwordTrail : MonoBehaviour
         // Add a new trail section
         if (sections.Count == 0 || (sections[0].point - position).sqrMagnitude > minDistance * minDistance)
         {
-            TronTrailSection section = new TronTrailSection();
+            TrailSection section = new TrailSection();
             section.point = position;
             if (alwaysUp)
                 section.upDir = Vector3.up;
