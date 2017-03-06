@@ -22,8 +22,14 @@ public class Enemy : MonoBehaviour {
     [SerializeField]
     Transform arrowShootPosition;
 
+    [SerializeField]
+    GameObject weapon;
+
+
+
     GameObject hitEffect;
 
+    
 
     private bool dead;
 
@@ -39,8 +45,12 @@ public class Enemy : MonoBehaviour {
 
         hitEffect = GameObject.Find("hitEffect");
 
-        attackTarget = Camera.main.gameObject;
+        //attackTarget = Camera.main.gameObject;
+        attackTarget = GameObject.Find("PlayerCollider");
 
+
+        //weapon = transform.Find("Weapon");
+        weapon.GetComponent<Collider>().enabled = false;
 
         StartCoroutine(ShootArrow());
     }
@@ -140,7 +150,9 @@ public class Enemy : MonoBehaviour {
         //}
         if (other == attackPrepareZone)
         {
-            //Debug.Log(other.name);
+            
+            // attack prepare
+
             if ( 0 < Vector3.Dot( transform.right, attackTarget.transform.position - transform.position ) )
             {
                 m_Animator.SetBool("SwingRightStart", true);
@@ -149,15 +161,30 @@ public class Enemy : MonoBehaviour {
             {
                 m_Animator.SetBool("SwingLeftStart", true);
             }
+
+            
             
         }
         else if (other == attackZone)
         {
+
+            // attack execute
+
             m_Animator.SetBool("SwingRightStart", false);
             m_Animator.SetBool("SwingLeftStart", false);
             m_Animator.SetTrigger("SwingAttackBothSide");
+
+
+            weapon.GetComponent<Collider>().enabled = true;
+            StartCoroutine(setWeaponTriggerEnable(false));
         }
     }
 
+
+    IEnumerator setWeaponTriggerEnable(bool e)
+    {
+        yield return new WaitForSeconds(2);
+        weapon.GetComponent<Collider>().enabled = e;
+    }
 
 }
