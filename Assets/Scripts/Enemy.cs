@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
+
+    enum SoldierType { Swordsman, Spearman, Bowman };
+
+
     Animator m_Animator;
     Rigidbody m_Rigidbody;
 
@@ -25,8 +29,14 @@ public class Enemy : MonoBehaviour {
     [SerializeField]
     GameObject weapon;
 
+    [SerializeField]
+    SoldierType soldierType;
 
 
+
+
+    // TODO: optimized with gameobject pool
+    // temparaly using 
     GameObject hitEffect;
 
     
