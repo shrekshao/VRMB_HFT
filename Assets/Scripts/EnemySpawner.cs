@@ -37,7 +37,19 @@ public class EnemySpawner : MonoBehaviour {
                 //Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
                 Vector3 spawnPosition = new Vector3( ( Random.value > 0.5f ? 1f: -1f) * Random.Range(spawnXRangeMin, spawnXRangeMax), 0f, -30f);
                 Quaternion spawnRotation = Quaternion.identity;
-                Instantiate(mountedSwordsman, spawnPosition, Quaternion.identity);
+
+
+                Enemy enemy = Instantiate(mountedSwordsman, spawnPosition, Quaternion.identity).GetComponent<Enemy>();
+                //enemy.SetSoldierType(SoldierType.Bowman);
+
+                //Instantiate(mountedSwordsman, spawnPosition, Quaternion.identity).GetComponent<Enemy>().SetSoldierType(SoldierType.Bowman);
+
+                //GameObject go = Instantiate(mountedSwordsman, spawnPosition, Quaternion.identity) as GameObject;
+                //Debug.Log(go);
+                //go.SendMessage("SetSoldierType", SoldierType.Bowman);
+
+                // TODO: factory mode
+
                 yield return new WaitForSeconds(spawnWait);
             }
             yield return new WaitForSeconds(waveWait);

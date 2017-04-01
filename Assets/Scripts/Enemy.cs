@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum SoldierType { Swordsman = 0, Spearman, Bowman };
+
 public class Enemy : MonoBehaviour {
 
-
-    enum SoldierType { Swordsman, Spearman, Bowman };
+    
 
 
     Animator m_Animator;
@@ -28,6 +30,12 @@ public class Enemy : MonoBehaviour {
 
     [SerializeField]
     GameObject weapon;
+
+    [SerializeField]
+    GameObject bow;
+
+    [SerializeField]
+    GameObject rightHandArrow;   //place holder arrow used for draw bow animation
 
     [SerializeField]
     SoldierType soldierType;
@@ -62,10 +70,68 @@ public class Enemy : MonoBehaviour {
         //weapon = transform.Find("Weapon");
         weapon.GetComponent<Collider>().enabled = false;
 
-        StartCoroutine(ShootArrow());
+
+
+        //soldierType = SoldierType.Swordsman;
+        SetSoldierType(SoldierType.Bowman);
     }
-	
-	// Update is called once per frame
+
+    //public void setSoldierType(int type)
+    //{
+    //    soldierType = (SoldierType)type;
+    //}
+
+    public void SetSoldierType(SoldierType type)
+    {
+        soldierType = type;
+
+        initSoldier();
+    }
+
+    void initSoldier()
+    {
+        switch(soldierType)
+        {
+            case SoldierType.Swordsman:
+                {
+                    m_Animator.SetBool("isArcher", false);
+                    rightHandArrow.SetActive(false);
+                    break;
+                }
+            case SoldierType.Bowman:
+                {
+                    m_Animator.SetBool("isArcher", true);
+
+                    weapon.SetActive(false);
+                    bow.SetActive(true);
+                    rightHandArrow.SetActive(false);
+
+                    StartCoroutine(DrawBow());
+                    break;
+                }
+        }
+    }
+
+    void deconstructSoldier()
+    {
+        switch (soldierType)
+        {
+            case SoldierType.Swordsman:
+                {
+                    break;
+                }
+            case SoldierType.Bowman:
+                {
+
+                    StopCoroutine(DrawBow());
+                    break;
+                }
+        }
+    }
+
+
+
+    // Update is called once per frame
     private bool deathForce = false;
 	void Update () {
         if (!dead)
@@ -77,6 +143,8 @@ public class Enemy : MonoBehaviour {
             // dead
             if (!deathForce)
             {
+                deconstructSoldier();
+
                 m_Rigidbody.AddForce(40f * Vector3.back + 2f * Vector3.up, ForceMode.Impulse);
                 deathForce = true;
 
@@ -87,18 +155,37 @@ public class Enemy : MonoBehaviour {
         
 	}
 
-    IEnumerator ShootArrow()
+    IEnumerator DrawBow()
     {
 
         while(true)
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2);
             //Debug.Log("Shoot");
-            GameObject arrow = (GameObject) Instantiate(this.arrow, arrowShootPosition.position + 2f * Vector3.forward, Quaternion.identity);
+            //GameObject arrow = (GameObject) Instantiate(this.arrow, arrowShootPosition.position + 2f * Vector3.forward, Quaternion.identity);
 
-            arrow.GetComponent<Arrow>().InitVelocity(new Vector3(0f, 8f, 20f));
+            m_Animator.SetTrigger("ArcherDrawBow");
+            m_Animator.SetTrigger("ArcherShoot");
+
+           
         }
         
+    }
+
+    public void PickArrow()
+    {
+        rightHandArrow.SetActive(true);
+    }
+
+
+    public void ShootArrow()
+    {
+        //+ 0.1f * Vector3.forward
+        GameObject arrow = (GameObject)Instantiate(this.arrow, rightHandArrow.transform.position + 0.2f * (- rightHandArrow.transform.right), Quaternion.identity);
+
+        rightHandArrow.SetActive(false);
+
+        arrow.GetComponent<Arrow>().InitVelocity(new Vector3(0f, 12f, 30f));
     }
 
     IEnumerator WaitAndDestroy()
@@ -137,35 +224,39 @@ public class Enemy : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("AttackPrepareZoneFriend"))
+        if (soldierType == SoldierType.Swordsman)
         {
-
-            // attack prepare
-            m_Animator.ResetTrigger("SwingAttackBothSide");
-            if ( 0 < Vector3.Dot( transform.right, other.transform.position - transform.position ) )
+            if (other.CompareTag("AttackPrepareZoneFriend"))
             {
-                m_Animator.SetBool("SwingRightStart", true);
+
+                // attack prepare
+                m_Animator.ResetTrigger("SwingAttackBothSide");
+                if (0 < Vector3.Dot(transform.right, other.transform.position - transform.position))
+                {
+                    m_Animator.SetBool("SwingRightStart", true);
+                }
+                else
+                {
+                    m_Animator.SetBool("SwingLeftStart", true);
+                }
+
+
             }
-            else
+            else if (other.CompareTag("AttackExecuteZoneFriend"))
             {
-                m_Animator.SetBool("SwingLeftStart", true);
+
+                // attack execute
+
+                m_Animator.SetBool("SwingRightStart", false);
+                m_Animator.SetBool("SwingLeftStart", false);
+                m_Animator.SetTrigger("SwingAttackBothSide");
+
+
+                weapon.GetComponent<Collider>().enabled = true;
+                StartCoroutine(setWeaponTriggerEnable(false));
             }
-
-            
         }
-        else if (other.CompareTag("AttackExecuteZoneFriend"))
-        {
-
-            // attack execute
-
-            m_Animator.SetBool("SwingRightStart", false);
-            m_Animator.SetBool("SwingLeftStart", false);
-            m_Animator.SetTrigger("SwingAttackBothSide");
-
-
-            weapon.GetComponent<Collider>().enabled = true;
-            StartCoroutine(setWeaponTriggerEnable(false));
-        }
+        
     }
 
 
