@@ -39,14 +39,16 @@ public class EnemySpawner : MonoBehaviour {
                 Quaternion spawnRotation = Quaternion.identity;
 
 
-                Enemy enemy = Instantiate(mountedSwordsman, spawnPosition, Quaternion.identity).GetComponent<Enemy>();
+                //? NULL for instantiate
+
+                //Enemy enemy = Instantiate(mountedSwordsman, spawnPosition, Quaternion.identity).GetComponent<Enemy>();
                 //enemy.SetSoldierType(SoldierType.Bowman);
 
                 //Instantiate(mountedSwordsman, spawnPosition, Quaternion.identity).GetComponent<Enemy>().SetSoldierType(SoldierType.Bowman);
 
-                //GameObject go = Instantiate(mountedSwordsman, spawnPosition, Quaternion.identity) as GameObject;
-                //Debug.Log(go);
-                //go.SendMessage("SetSoldierType", SoldierType.Bowman);
+                GameObject go = Instantiate(mountedSwordsman, spawnPosition, Quaternion.identity) as GameObject;
+                go.GetComponentInChildren<Enemy>().SetSoldierType(SoldierType.Bowman);
+                //go.transform.FindChild("EnemySwordsman").gameObject.GetComponent<Enemy>().SetSoldierType(SoldierType.Bowman);
 
                 // TODO: factory mode
 

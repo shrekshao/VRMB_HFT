@@ -72,8 +72,8 @@ public class Enemy : MonoBehaviour {
 
 
 
-        //soldierType = SoldierType.Swordsman;
-        SetSoldierType(SoldierType.Bowman);
+        soldierType = SoldierType.Swordsman;
+        //SetSoldierType(SoldierType.Bowman);
     }
 
     //public void setSoldierType(int type)
@@ -90,7 +90,8 @@ public class Enemy : MonoBehaviour {
 
     void initSoldier()
     {
-        switch(soldierType)
+        m_Animator = GetComponent<Animator>();
+        switch (soldierType)
         {
             case SoldierType.Swordsman:
                 {
