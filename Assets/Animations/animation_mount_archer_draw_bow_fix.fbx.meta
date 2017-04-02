@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: a32e489b9c1134b408ad05432ebb6f16
-timeCreated: 1491069862
+guid: 186b53e8bf2166344a96c3f33562904f
+timeCreated: 1491151003
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -63,10 +63,10 @@ ModelImporter:
     400052: root
     400054: waist1
     400056: waist2
-    7400000: Archer_draw_bow
-    7400002: Archer_draw_bow_idle
-    7400004: Archer_shoot
-    7400006: Archer_pick_arrow
+    7400000: ArcherPickArrow
+    7400002: ArcherDrawBow
+    7400004: ArcherDrawBowIdle
+    7400006: ArcherShoot
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -90,7 +90,93 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Archer_draw_bow
+      name: ArcherPickArrow
+      takeName: Take 001
+      firstFrame: 2
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/hip
+        weight: 1
+      - path: root/hip/left_leg_root
+        weight: 1
+      - path: root/hip/left_leg_root/left_upper_leg
+        weight: 1
+      - path: root/hip/left_leg_root/left_upper_leg/left_knee
+        weight: 1
+      - path: root/hip/left_leg_root/left_upper_leg/left_knee/left_ankle
+        weight: 1
+      - path: root/hip/left_leg_root/left_upper_leg/left_knee/left_ankle/left_toe
+        weight: 1
+      - path: root/hip/right_leg_root
+        weight: 1
+      - path: root/hip/right_leg_root/right_upper_leg
+        weight: 1
+      - path: root/hip/right_leg_root/right_upper_leg/right_knee
+        weight: 1
+      - path: root/hip/right_leg_root/right_upper_leg/right_knee/right_ankle
+        weight: 1
+      - path: root/hip/right_leg_root/right_upper_leg/right_knee/right_ankle/right_toe
+        weight: 1
+      - path: root/waist1
+        weight: 1
+      - path: root/waist1/waist2
+        weight: 1
+      - path: root/waist1/waist2/chest
+        weight: 1
+      - path: root/waist1/waist2/chest/left_arm_root
+        weight: 1
+      - path: root/waist1/waist2/chest/left_arm_root/left_shoulder
+        weight: 1
+      - path: root/waist1/waist2/chest/left_arm_root/left_shoulder/left_elbow
+        weight: 1
+      - path: root/waist1/waist2/chest/left_arm_root/left_shoulder/left_elbow/left_hand
+        weight: 1
+      - path: root/waist1/waist2/chest/left_arm_root/left_shoulder/left_elbow/left_hand/left_finger_tip
+        weight: 0
+      - path: root/waist1/waist2/chest/neck
+        weight: 1
+      - path: root/waist1/waist2/chest/neck/head
+        weight: 1
+      - path: root/waist1/waist2/chest/neck/head/head_top
+        weight: 0
+      - path: root/waist1/waist2/chest/right_arm_root
+        weight: 1
+      - path: root/waist1/waist2/chest/right_arm_root/right_shoulder
+        weight: 1
+      - path: root/waist1/waist2/chest/right_arm_root/right_shoulder/right_elbow
+        weight: 1
+      - path: root/waist1/waist2/chest/right_arm_root/right_shoulder/right_elbow/right_hand
+        weight: 1
+      - path: root/waist1/waist2/chest/right_arm_root/right_shoulder/right_elbow/right_hand/right_finger_tip
+        weight: 0
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ArcherDrawBow
       takeName: Take 001
       firstFrame: 10
       lastFrame: 25
@@ -176,7 +262,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Archer_draw_bow_idle
+      name: ArcherDrawBowIdle
       takeName: Take 001
       firstFrame: 25
       lastFrame: 29
@@ -262,96 +348,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Archer_shoot
+      name: ArcherShoot
       takeName: Take 001
       firstFrame: 29
       lastFrame: 33
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: root
-        weight: 1
-      - path: root/hip
-        weight: 1
-      - path: root/hip/left_leg_root
-        weight: 1
-      - path: root/hip/left_leg_root/left_upper_leg
-        weight: 1
-      - path: root/hip/left_leg_root/left_upper_leg/left_knee
-        weight: 1
-      - path: root/hip/left_leg_root/left_upper_leg/left_knee/left_ankle
-        weight: 1
-      - path: root/hip/left_leg_root/left_upper_leg/left_knee/left_ankle/left_toe
-        weight: 1
-      - path: root/hip/right_leg_root
-        weight: 1
-      - path: root/hip/right_leg_root/right_upper_leg
-        weight: 1
-      - path: root/hip/right_leg_root/right_upper_leg/right_knee
-        weight: 1
-      - path: root/hip/right_leg_root/right_upper_leg/right_knee/right_ankle
-        weight: 1
-      - path: root/hip/right_leg_root/right_upper_leg/right_knee/right_ankle/right_toe
-        weight: 1
-      - path: root/waist1
-        weight: 1
-      - path: root/waist1/waist2
-        weight: 1
-      - path: root/waist1/waist2/chest
-        weight: 1
-      - path: root/waist1/waist2/chest/left_arm_root
-        weight: 1
-      - path: root/waist1/waist2/chest/left_arm_root/left_shoulder
-        weight: 1
-      - path: root/waist1/waist2/chest/left_arm_root/left_shoulder/left_elbow
-        weight: 1
-      - path: root/waist1/waist2/chest/left_arm_root/left_shoulder/left_elbow/left_hand
-        weight: 1
-      - path: root/waist1/waist2/chest/left_arm_root/left_shoulder/left_elbow/left_hand/left_finger_tip
-        weight: 0
-      - path: root/waist1/waist2/chest/neck
-        weight: 1
-      - path: root/waist1/waist2/chest/neck/head
-        weight: 1
-      - path: root/waist1/waist2/chest/neck/head/head_top
-        weight: 0
-      - path: root/waist1/waist2/chest/right_arm_root
-        weight: 1
-      - path: root/waist1/waist2/chest/right_arm_root/right_shoulder
-        weight: 1
-      - path: root/waist1/waist2/chest/right_arm_root/right_shoulder/right_elbow
-        weight: 1
-      - path: root/waist1/waist2/chest/right_arm_root/right_shoulder/right_elbow/right_hand
-        weight: 1
-      - path: root/waist1/waist2/chest/right_arm_root/right_shoulder/right_elbow/right_hand/right_finger_tip
-        weight: 0
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Archer_pick_arrow
-      takeName: Take 001
-      firstFrame: 2
-      lastFrame: 10
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -629,13 +629,13 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: animation_mount_archer_draw_bow(Clone)
+    - name: animation_mount_archer_draw_bow_fix(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: root
-      parentName: animation_mount_archer_draw_bow(Clone)
+      parentName: animation_mount_archer_draw_bow_fix(Clone)
       position: {x: 0.00097613595, y: 0.3743352, z: -0.0120184105}
       rotation: {x: 0.057283133, y: 0.7047827, z: 0.057283133, w: 0.7047827}
       scale: {x: 1, y: 1, z: 1}

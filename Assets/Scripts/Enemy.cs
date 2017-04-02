@@ -47,13 +47,14 @@ public class Enemy : MonoBehaviour {
     // temparaly using 
     GameObject hitEffect;
 
-    
+    private bool initializedSoliderType;
 
     private bool dead;
 
     // Use this for initialization
     void Start () {
         dead = false;
+        initializedSoliderType = false;
 
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();
@@ -71,9 +72,7 @@ public class Enemy : MonoBehaviour {
         weapon.GetComponent<Collider>().enabled = false;
 
 
-
-        soldierType = SoldierType.Swordsman;
-        //SetSoldierType(SoldierType.Bowman);
+        initSoldier();
     }
 
     //public void setSoldierType(int type)
@@ -90,27 +89,32 @@ public class Enemy : MonoBehaviour {
 
     void initSoldier()
     {
-        m_Animator = GetComponent<Animator>();
-        switch (soldierType)
+        if (!initializedSoliderType)
         {
-            case SoldierType.Swordsman:
-                {
-                    m_Animator.SetBool("isArcher", false);
-                    rightHandArrow.SetActive(false);
-                    break;
-                }
-            case SoldierType.Bowman:
-                {
-                    m_Animator.SetBool("isArcher", true);
+            initializedSoliderType = true;
+            m_Animator = GetComponent<Animator>();
+            switch (soldierType)
+            {
+                case SoldierType.Swordsman:
+                    {
+                        m_Animator.SetBool("isArcher", false);
+                        rightHandArrow.SetActive(false);
+                        break;
+                    }
+                case SoldierType.Bowman:
+                    {
+                        m_Animator.SetBool("isArcher", true);
 
-                    weapon.SetActive(false);
-                    bow.SetActive(true);
-                    rightHandArrow.SetActive(false);
+                        weapon.SetActive(false);
+                        bow.SetActive(true);
+                        rightHandArrow.SetActive(false);
 
-                    StartCoroutine(DrawBow());
-                    break;
-                }
+                        StartCoroutine(DrawBow());
+                        break;
+                    }
+            }
         }
+        
     }
 
     void deconstructSoldier()

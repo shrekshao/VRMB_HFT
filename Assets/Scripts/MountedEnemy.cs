@@ -25,8 +25,6 @@ public class MountedEnemy : MonoBehaviour {
         //m_Animator.applyRootMotion = true;
 
         m_Rigidbody.velocity = new Vector3(0f, 0f, 4f);
-
-        //gameExitZone = GameObject.Find("GameExitZone").GetComponent<Collider>();
     }
 	
 	// Update is called once per frame
