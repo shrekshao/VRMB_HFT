@@ -16,8 +16,7 @@ public class Arrow : MonoBehaviour {
 
         m_rigidBody = GetComponent<Rigidbody>();
         //m_rigidBody = transform.FindChild("Arrow").gameObject.GetComponent<Rigidbody>();
-
-        m_rigidBody.velocity = new Vector3(0f, 0f, 10f);
+        
     }
 
     public void InitVelocity(Vector3 v)  // TODO: rotation

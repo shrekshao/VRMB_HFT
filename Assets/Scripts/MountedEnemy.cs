@@ -26,9 +26,9 @@ public class MountedEnemy : MonoBehaviour {
 
         m_Rigidbody.velocity = new Vector3(0f, 0f, 4f);
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         //rider.transform.position = riderPivot.position;
 	}
 

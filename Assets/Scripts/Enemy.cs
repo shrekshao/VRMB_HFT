@@ -40,12 +40,15 @@ public class Enemy : MonoBehaviour {
     [SerializeField]
     SoldierType soldierType;
 
-
+    [SerializeField]
+    Transform lookAtBone;
 
 
     // TODO: optimized with gameobject pool
     // temparaly using 
     GameObject hitEffect;
+
+    Transform player;
 
     private bool initializedSoliderType;
 
@@ -71,6 +74,8 @@ public class Enemy : MonoBehaviour {
         //weapon = transform.Find("Weapon");
         weapon.GetComponent<Collider>().enabled = false;
 
+
+        player = GameObject.Find("Player").transform;
 
         initSoldier();
     }
@@ -135,6 +140,74 @@ public class Enemy : MonoBehaviour {
     }
 
 
+    private bool ikActive = true;
+    void OnAnimatorIK()
+    {
+        if (m_Animator)
+        {
+
+            //if the IK is active, set the position and rotation directly to the goal. 
+            if (ikActive)
+            {
+
+                // Set the look target position, if one has been assigned
+                if (player != null)
+                {
+                    //Vector3 targetPosition = new Vector3(player.position.x, lookAtBone.position.y, player.position.z);
+                    Vector3 targetPosition = new Vector3(player.position.x, m_Animator.rootPosition.y, player.position.z);
+
+                    m_Animator.SetLookAtWeight(1, 1, 0, 0);
+                    m_Animator.SetLookAtPosition(player.position);
+                }
+                
+
+            }
+
+            //if the IK is not active, set the position and rotation of the hand and head back to the original position
+            else {
+                m_Animator.SetLookAtWeight(0);
+            }
+        }
+    }
+
+
+    private bool isArrowAimingFix = false;
+    void LateUpdate()
+    {
+        //// used for look at
+        //// set bones transform after the animation
+        //if (ikActive)
+        //{
+        //    if (player != null)
+        //    {
+        //        // only rotate on Y (up) axis
+        //        Vector3 targetPosition = new Vector3(player.position.x, lookAtBone.position.y, player.position.z);
+
+        //        lookAtBone.LookAt(targetPosition, Vector3.up);
+        //    }
+        //}
+
+
+        // tiny y axis rotation fix for arrow aiming
+        if (isArrowAimingFix)
+        {
+            Vector3 targetVector = player.position - rightHandArrow.transform.position;
+            targetVector.y = 0;
+            Vector3 currentVector = new Vector3(rightHandArrow.transform.forward.x, 0, rightHandArrow.transform.forward.z);
+
+            float deltaAngle = Vector3.Angle(currentVector, targetVector);
+
+            //Debug.Log("delta: " + deltaAngle);
+            //Debug.Log("current: " + lookAtBone.rotation.eulerAngles.y);
+
+            lookAtBone.Rotate(Vector3.up, deltaAngle, Space.World);
+
+            //Debug.Log("after: " + lookAtBone.rotation.eulerAngles.y);
+        }
+    }
+
+
+
 
     // Update is called once per frame
     private bool deathForce = false;
@@ -146,10 +219,12 @@ public class Enemy : MonoBehaviour {
         else
         {
             // dead
+
             if (!deathForce)
             {
                 deconstructSoldier();
 
+                // add force doesn't seem to work in OnEnterCollision
                 m_Rigidbody.AddForce(40f * Vector3.back + 2f * Vector3.up, ForceMode.Impulse);
                 deathForce = true;
 
@@ -183,14 +258,27 @@ public class Enemy : MonoBehaviour {
     }
 
 
+    public void SetAimArrowFix(bool v)
+    {
+        isArrowAimingFix = v;
+    }
+
     public void ShootArrow()
     {
+        isArrowAimingFix = false;
+
+
         //+ 0.1f * Vector3.forward
-        GameObject arrow = (GameObject)Instantiate(this.arrow, rightHandArrow.transform.position + 0.2f * (- rightHandArrow.transform.right), Quaternion.identity);
+        GameObject arrow = (GameObject)Instantiate(this.arrow, rightHandArrow.transform.position + 0.2f * rightHandArrow.transform.forward, rightHandArrow.transform.rotation);
 
         rightHandArrow.SetActive(false);
 
-        arrow.GetComponent<Arrow>().InitVelocity(new Vector3(0f, 12f, 30f));
+        //arrow.GetComponent<Arrow>().InitVelocity(new Vector3(0f, 12f, 30f));
+
+        arrow.GetComponent<Arrow>().InitVelocity(
+            Vector3.up * 1f
+            + rightHandArrow.transform.forward * 20f
+            );
     }
 
     IEnumerator WaitAndDestroy()
@@ -200,13 +288,22 @@ public class Enemy : MonoBehaviour {
     }
 
 
+    void UpdateDeathState()
+    {
+        dead = true;
+        ikActive = false;
+        isArrowAimingFix = false;
+        rightHandArrow.SetActive(false);
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("PlayerAttack") && !dead)
         {
             // killed  by player
             //Debug.Log(other.name);
-            dead = true;
+            UpdateDeathState();
+
 
 
             transform.SetParent(null);
