@@ -276,7 +276,7 @@ public class Enemy : MonoBehaviour {
         //arrow.GetComponent<Arrow>().InitVelocity(new Vector3(0f, 12f, 30f));
 
         arrow.GetComponent<Arrow>().InitVelocity(
-            Vector3.up * 1f
+            Vector3.up * 3f
             + rightHandArrow.transform.forward * 20f
             );
     }
