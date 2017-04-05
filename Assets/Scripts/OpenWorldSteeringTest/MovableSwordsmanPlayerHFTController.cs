@@ -35,6 +35,9 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
     private GameObject parentPlayer;
     private MovablePlayer movablePlayer;
 
+    private bool steering;
+    private Quaternion steeringBaseRotation;
+
     // Use this for initialization
     void Start()
     {
@@ -77,6 +80,8 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
         transform.SetParent(parentPlayer.transform);
         transform.position = parentPlayer.transform.FindChild("SwordCharacterPivot").position;
         movablePlayer = parentPlayer.GetComponent<MovablePlayer>();
+
+        steering = false;
     }
 
 
@@ -127,13 +132,35 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
         if (m_hftInput.GetButton("fire2"))
         {
             // steering the horse
-            rope.SetActive(true);
 
-            movablePlayer.Steer(1.0f);
+            if (!steering)
+            {
+                // first press
+                // capture current rotation
+
+                steering = true;
+                steeringBaseRotation = m_hftInput.gyro.attitude;
+
+
+                rope.SetActive(true);
+            }
+            else
+            {
+
+                float steer = Mathf.DeltaAngle( steeringBaseRotation.eulerAngles.z, m_hftInput.gyro.attitude.eulerAngles.z );
+                //Debug.Log(steer);
+
+                movablePlayer.Steer(steer / 45f);
+            }
+
+            
+
+            // movablePlayer.Steer(1.0f);
 
         }
         else
         {
+            steering = false;
             rope.SetActive(false);
         }
 
