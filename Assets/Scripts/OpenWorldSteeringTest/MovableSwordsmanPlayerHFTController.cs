@@ -75,13 +75,14 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
 
 
         // TEST: attach as child of player (horse)
+        steering = false;
         rope = sword.FindChild("Rope").gameObject;
         parentPlayer = GameObject.Find("Player");
         transform.SetParent(parentPlayer.transform);
         transform.position = parentPlayer.transform.FindChild("SwordCharacterPivot").position;
         movablePlayer = parentPlayer.GetComponent<MovablePlayer>();
 
-        steering = false;
+        
     }
 
 

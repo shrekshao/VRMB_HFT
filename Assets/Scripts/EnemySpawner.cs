@@ -47,7 +47,10 @@ public class EnemySpawner : MonoBehaviour {
                 //Instantiate(mountedSwordsman, spawnPosition, Quaternion.identity).GetComponent<Enemy>().SetSoldierType(SoldierType.Bowman);
 
                 GameObject go = Instantiate(mountedSwordsman, spawnPosition, Quaternion.identity) as GameObject;
-                go.GetComponentInChildren<Enemy>().SetSoldierType(SoldierType.Bowman);
+
+                SoldierType type = Random.value > 0.5f ? SoldierType.Bowman :  SoldierType.Swordsman;
+
+                go.GetComponentInChildren<Enemy>().SetSoldierType(type);
                 //go.transform.FindChild("EnemySwordsman").gameObject.GetComponent<Enemy>().SetSoldierType(SoldierType.Bowman);
 
                 // TODO: factory mode

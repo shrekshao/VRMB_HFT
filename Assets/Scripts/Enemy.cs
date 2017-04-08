@@ -187,7 +187,7 @@ public class Enemy : MonoBehaviour {
 
 
         // tiny y axis rotation fix for arrow aiming
-        if (isArrowAimingFix)
+        if (!dead && isArrowAimingFix)
         {
             Vector3 targetVector = player.position - rightHandArrow.transform.position;
             targetVector.y = 0;
@@ -263,20 +263,24 @@ public class Enemy : MonoBehaviour {
 
     public void ShootArrow()
     {
-        isArrowAimingFix = false;
+        if (!dead)
+        {
+            isArrowAimingFix = false;
 
 
-        //+ 0.1f * Vector3.forward
-        GameObject arrow = (GameObject)Instantiate(this.arrow, rightHandArrow.transform.position + 0.2f * rightHandArrow.transform.forward, rightHandArrow.transform.rotation);
+            //+ 0.1f * Vector3.forward
+            GameObject arrow = (GameObject)Instantiate(this.arrow, rightHandArrow.transform.position + 0.2f * rightHandArrow.transform.forward, rightHandArrow.transform.rotation);
 
-        rightHandArrow.SetActive(false);
+            rightHandArrow.SetActive(false);
 
-        //arrow.GetComponent<Arrow>().InitVelocity(new Vector3(0f, 12f, 30f));
+            //arrow.GetComponent<Arrow>().InitVelocity(new Vector3(0f, 12f, 30f));
 
-        arrow.GetComponent<Arrow>().InitVelocity(
-            Vector3.up * 3f
-            + rightHandArrow.transform.forward * 20f
-            );
+            arrow.GetComponent<Arrow>().InitVelocity(
+                Vector3.up * 3f
+                + rightHandArrow.transform.forward * 20f
+                );
+        }
+        
     }
 
     IEnumerator WaitAndDestroy()
