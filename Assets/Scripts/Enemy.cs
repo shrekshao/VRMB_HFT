@@ -43,21 +43,19 @@ public class Enemy : MonoBehaviour {
     [SerializeField]
     Transform lookAtBone;
 
-
     // TODO: optimized with gameobject pool
     // temparaly using 
     GameObject hitEffect;
 
     Transform player;
 
-    private bool initializedSoliderType;
+    private bool initializedSoliderType = false;
 
     private bool dead;
 
     // Use this for initialization
     void Start () {
         dead = false;
-        initializedSoliderType = false;
 
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();

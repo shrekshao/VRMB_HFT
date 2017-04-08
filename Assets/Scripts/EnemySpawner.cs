@@ -35,7 +35,7 @@ public class EnemySpawner : MonoBehaviour {
             for (int i = 0; i < enemyCount; i++)
             {
                 //Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
-                Vector3 spawnPosition = new Vector3( ( Random.value > 0.5f ? 1f: -1f) * Random.Range(spawnXRangeMin, spawnXRangeMax), 0f, -30f);
+                Vector3 spawnPosition = new Vector3( ( Random.value > 0.5f ? 1f: -1f) * Random.Range(spawnXRangeMin, spawnXRangeMax), 0f, transform.position.z);
                 Quaternion spawnRotation = Quaternion.identity;
 
 
