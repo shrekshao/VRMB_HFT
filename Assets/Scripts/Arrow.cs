@@ -100,6 +100,8 @@ public class Arrow : MonoBehaviour {
             m_rigidBody.velocity.Set(0, 0, 0);
             flying = false;
 
+            transform.SetParent(other.transform);
+
             GetComponent<AudioSource>().Play();
 
             Destroy(m_rigidBody);

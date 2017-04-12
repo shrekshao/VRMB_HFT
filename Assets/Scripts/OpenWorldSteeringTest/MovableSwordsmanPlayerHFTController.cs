@@ -143,7 +143,7 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
                 steeringBaseRotation = m_hftInput.gyro.attitude;
 
 
-                rope.SetActive(true);
+                //rope.SetActive(true);
             }
             else
             {

@@ -169,7 +169,19 @@ public class Enemy : MonoBehaviour {
     }
 
 
-    private bool isArrowAimingFix = false;
+    private bool isArrowAimingFix = false;  // whether fix the aiming angle of the arrow made by the animation
+    private const float maxArrowAimingFixingAngle = 40f;
+
+    private float getAimArrowDeltaAngle(Transform target, Transform aimer)
+    {
+        Vector3 targetVector = target.position - aimer.position;
+        targetVector.y = 0;
+        Vector3 currentVector = new Vector3(aimer.forward.x, 0, aimer.forward.z);
+
+        return Vector3.Angle(currentVector, targetVector);
+    }
+
+
     void LateUpdate()
     {
         //// used for look at
@@ -189,11 +201,9 @@ public class Enemy : MonoBehaviour {
         // tiny y axis rotation fix for arrow aiming
         if (!dead && isArrowAimingFix)
         {
-            Vector3 targetVector = player.position - rightHandArrow.transform.position;
-            targetVector.y = 0;
-            Vector3 currentVector = new Vector3(rightHandArrow.transform.forward.x, 0, rightHandArrow.transform.forward.z);
+            float deltaAngle = getAimArrowDeltaAngle(player, rightHandArrow.transform);
 
-            float deltaAngle = Vector3.Angle(currentVector, targetVector);
+            deltaAngle = Mathf.Clamp(deltaAngle, -maxArrowAimingFixingAngle, maxArrowAimingFixingAngle);
 
             //Debug.Log("delta: " + deltaAngle);
             //Debug.Log("current: " + lookAtBone.rotation.eulerAngles.y);
@@ -242,9 +252,17 @@ public class Enemy : MonoBehaviour {
             //Debug.Log("Shoot");
             //GameObject arrow = (GameObject) Instantiate(this.arrow, arrowShootPosition.position + 2f * Vector3.forward, Quaternion.identity);
 
-            m_Animator.SetTrigger("ArcherDrawBow");
-            m_Animator.SetTrigger("ArcherShoot");
+            
+            
+            float deltaAngle = getAimArrowDeltaAngle(player, transform);
 
+
+            // don't shoot when not facing at the player
+            if (Mathf.Abs(deltaAngle) <= maxArrowAimingFixingAngle)
+            {
+                m_Animator.SetTrigger("ArcherDrawBow");
+                m_Animator.SetTrigger("ArcherShoot");
+            }
            
         }
         
@@ -265,9 +283,7 @@ public class Enemy : MonoBehaviour {
     {
         if (!dead)
         {
-            isArrowAimingFix = false;
-
-
+            
             //+ 0.1f * Vector3.forward
             GameObject arrow = (GameObject)Instantiate(this.arrow, rightHandArrow.transform.position + 0.2f * rightHandArrow.transform.forward, rightHandArrow.transform.rotation);
 
@@ -279,6 +295,9 @@ public class Enemy : MonoBehaviour {
                 Vector3.up * 3f
                 + rightHandArrow.transform.forward * 20f
                 );
+            
+
+            isArrowAimingFix = false;
         }
         
     }

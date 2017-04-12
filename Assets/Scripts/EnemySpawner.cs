@@ -48,7 +48,7 @@ public class EnemySpawner : MonoBehaviour {
 
                 GameObject go = Instantiate(mountedSwordsman, spawnPosition, Quaternion.identity) as GameObject;
 
-                SoldierType type = Random.value > 0.5f ? SoldierType.Bowman :  SoldierType.Swordsman;
+                SoldierType type = Random.value > 0.0f ? SoldierType.Bowman :  SoldierType.Swordsman;
 
                 go.GetComponentInChildren<Enemy>().SetSoldierType(type);
                 //go.transform.FindChild("EnemySwordsman").gameObject.GetComponent<Enemy>().SetSoldierType(SoldierType.Bowman);
