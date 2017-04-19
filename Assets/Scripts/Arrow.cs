@@ -97,6 +97,8 @@ public class Arrow : MonoBehaviour {
         if (other.CompareTag("Player"))
         {
             Debug.Log("Arrow hit player");
+            other.GetComponent<BloodScreen>().SetBloodVisible(true);
+
             m_rigidBody.velocity.Set(0, 0, 0);
             flying = false;
 

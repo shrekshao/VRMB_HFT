@@ -19,6 +19,7 @@ public class EnemyWeapon : MonoBehaviour {
         if (other.CompareTag("Player"))
         {
             Debug.Log("hit player");
+            other.GetComponent<BloodScreen>().SetBloodVisible(true);
         }
     }
 }
