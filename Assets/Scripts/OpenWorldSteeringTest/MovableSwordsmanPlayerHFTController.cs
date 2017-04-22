@@ -59,7 +59,7 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
 
 
         // Delete ourselves if disconnected
-        m_gamepad.OnDisconnect += Remove;
+        //m_gamepad.OnDisconnect += Remove;
 
 
 
@@ -78,8 +78,8 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
         steering = false;
         rope = sword.FindChild("Rope").gameObject;
         parentPlayer = GameObject.Find("Player");
-        transform.SetParent(parentPlayer.transform);
-        transform.position = parentPlayer.transform.FindChild("SwordCharacterPivot").position;
+        //transform.SetParent(parentPlayer.transform);
+        //transform.position = parentPlayer.transform.FindChild("SwordCharacterPivot").position;
         movablePlayer = parentPlayer.GetComponent<MovablePlayer>();
 
         
