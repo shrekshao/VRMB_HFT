@@ -8535,13 +8535,28 @@ GameObject:
   - component: {fileID: 631816082}
   - component: {fileID: 631816083}
   - component: {fileID: 631816084}
+  - component: {fileID: 631816080}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &631816080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 631816079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8745685190f994b4fbbee32e9eb9a960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelFileName: levels
+  mountedEnemyPrefab: {fileID: 1644358082028828, guid: f15c0c863c95d2f4b951a45457a5ee80,
+    type: 2}
 --- !u!4 &631816081
 Transform:
   m_ObjectHideFlags: 0
@@ -8561,7 +8576,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 631816079}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 387c63dcf2b70234d87fe50095a243b5, type: 3}
   m_Name: 
