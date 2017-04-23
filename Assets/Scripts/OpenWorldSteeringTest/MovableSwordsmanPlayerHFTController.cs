@@ -17,16 +17,16 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
     private HFTGamepad m_gamepad;
     private HFTInput m_hftInput;
 
-    // TODO: camera base rotation
-    //private Quaternion cameraBaseRotation;
-    private Quaternion inverseBaseRotation;     // base quaternion of controller (used for swords)
+
+    private static bool recentered = false;
+    private static Quaternion inverseBaseRotation = Quaternion.identity;     // base quaternion of controller (used for swords)
     private Vector3 baseEulerAngles;            // base euler angles of controller (used for ikhandler)
     //private Quaternion lastRotation;
 
     private static int s_playerCount = 0;
 
 
-
+    
 
 
 
@@ -37,6 +37,14 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
 
     private bool steering;
     private Quaternion steeringBaseRotation;
+
+
+
+    // temp ugly implementation
+    [SerializeField]
+    GameObject setBasePositionUI;
+
+
 
     // Use this for initialization
     void Start()
@@ -67,7 +75,7 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
 
 
         //baseRotation = Quaternion.identity;
-        inverseBaseRotation = Quaternion.identity;
+        //inverseBaseRotation = Quaternion.identity;
         //lastRotation = transform.rotation;
 
 
@@ -96,89 +104,122 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        // rotation
-        if (m_hftInput.GetButtonDown("fire1"))
-        {
-            // adjust sword 
-            //inverseBaseRotation = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f) 
-            //    * Quaternion.Inverse(m_hftInput.gyro.attitude);
-            inverseBaseRotation = Quaternion.Inverse(m_hftInput.gyro.attitude);
 
-            //baseEulerAngles = m_hftInput.gyro.attitude.eulerAngles;
-            sword.rotation = Quaternion.identity;
+        if (!recentered)
+        {
+            if (m_hftInput.GetButtonDown("fire1"))
+            {
+                // adjust sword 
+                //inverseBaseRotation = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f) 
+                //    * Quaternion.Inverse(m_hftInput.gyro.attitude);
+                inverseBaseRotation = Quaternion.Inverse(m_hftInput.gyro.attitude);
+
+                //baseEulerAngles = m_hftInput.gyro.attitude.eulerAngles;
+                sword.rotation = Quaternion.identity;
+
+                //recentered = true;
+            }
+            else if (m_hftInput.GetButtonDown("fire2"))
+            {
+                recentered = true;
+                setBasePositionUI.SetActive(false);
+                parentPlayer.GetComponent<MovablePlayer>().enabled = true;
+            }
         }
         else
         {
-
-            Quaternion q = m_hftInput.gyro.attitude;
-            //sword.rotation = inverseBaseRotation * q;
-            sword.rotation = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f)
-                            * inverseBaseRotation * q;
-
-
-
-            //Vector3 deltaEulerAngles = q.eulerAngles - baseEulerAngles;
-
-            //ikHandler.eulerAngles = q.eulerAngles - baseEulerAngles;
-
-            //ikHandler.rotation = inverseBaseRotation * q;
-            ikHandler.rotation = sword.rotation;
-        }
-
-        sword.position = hand.position;
-
-
-
-
-        if (m_hftInput.GetButton("fire2"))
-        {
-            // steering the horse
-
-            if (!steering)
+            
+            if (m_hftInput.GetButton("fire2"))
             {
-                // first press
-                // capture current rotation
+                // steering the horse
 
-                steering = true;
-                steeringBaseRotation = m_hftInput.gyro.attitude;
+                if (!steering)
+                {
+                    // first press
+                    // capture current rotation
+
+                    steering = true;
+                    steeringBaseRotation = m_hftInput.gyro.attitude;
 
 
-                //rope.SetActive(true);
+                    //rope.SetActive(true);
+                }
+                else
+                {
+
+                    float steer = Mathf.DeltaAngle(steeringBaseRotation.eulerAngles.z, m_hftInput.gyro.attitude.eulerAngles.z);
+                    //Debug.Log(steer);
+
+                    movablePlayer.Steer( Mathf.Clamp( steer / 45f, -1f, 1f  ) );
+                }
+
+
+
+                // movablePlayer.Steer(1.0f);
+
             }
             else
             {
-
-                float steer = Mathf.DeltaAngle( steeringBaseRotation.eulerAngles.z, m_hftInput.gyro.attitude.eulerAngles.z );
-                //Debug.Log(steer);
-
-                movablePlayer.Steer(steer / 45f);
+                steering = false;
+                rope.SetActive(false);
             }
-
-            
-
-            // movablePlayer.Steer(1.0f);
-
-        }
-        else
-        {
-            steering = false;
-            rope.SetActive(false);
         }
 
+        Quaternion q = m_hftInput.gyro.attitude;
+        //sword.rotation = inverseBaseRotation * q;
+        sword.rotation = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f)
+                        * inverseBaseRotation * q;
 
 
+        ikHandler.rotation = sword.rotation;
+        sword.position = hand.position;
 
-        //float steering = m_hftInput.GetAxis("Horizontal");
-        //if (steering > 0f)
+        //// rotation
+        //if (m_hftInput.GetButtonDown("fire1"))
         //{
-        //    steering = 1.0f;
-        //    movablePlayer.Steer(steering);
+        //    // adjust sword 
+        //    //inverseBaseRotation = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f) 
+        //    //    * Quaternion.Inverse(m_hftInput.gyro.attitude);
+        //    inverseBaseRotation = Quaternion.Inverse(m_hftInput.gyro.attitude);
+
+        //    //baseEulerAngles = m_hftInput.gyro.attitude.eulerAngles;
+        //    sword.rotation = Quaternion.identity;
+
+        //    recentered = true;
         //}
-        //else if (steering < 0f)
+        //else
         //{
-        //    steering = -1.0f;
-        //    movablePlayer.Steer(steering);
+
+        //    Quaternion q = m_hftInput.gyro.attitude;
+        //    //sword.rotation = inverseBaseRotation * q;
+        //    sword.rotation = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f)
+        //                    * inverseBaseRotation * q;
+
+
+
+        //    //Vector3 deltaEulerAngles = q.eulerAngles - baseEulerAngles;
+
+        //    //ikHandler.eulerAngles = q.eulerAngles - baseEulerAngles;
+
+        //    //ikHandler.rotation = inverseBaseRotation * q;
+        //    ikHandler.rotation = sword.rotation;
         //}
+
+        //sword.position = hand.position;
+
+
+
+        ////float steering = m_hftInput.GetAxis("Horizontal");
+        ////if (steering > 0f)
+        ////{
+        ////    steering = 1.0f;
+        ////    movablePlayer.Steer(steering);
+        ////}
+        ////else if (steering < 0f)
+        ////{
+        ////    steering = -1.0f;
+        ////    movablePlayer.Steer(steering);
+        ////}
 
     }
 

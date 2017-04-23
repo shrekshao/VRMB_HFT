@@ -37,26 +37,54 @@ public class WaveEnemeySpawner : MonoBehaviour {
 
     public string levelFileName = "levels";
 
+
+    static GlobalLevelData globalLevelData;
     //static JSONNode levelJSON = JSON.Parse(
-    static GlobalLevelData globalLevelData = JsonUtility.FromJson<GlobalLevelData>(
-        @"{
-            ""levels"": [
-                {
-                    ""spawns"": 
-                        [
-                            {
-                                ""distance"": -50,
-                                ""positionX"": 2,
-                                ""name"": ""archer""
-                            } 
-                        ]
+    //static GlobalLevelData globalLevelData = JsonUtility.FromJson<GlobalLevelData>(
+    //GlobalLevelData globalLevelData = JsonUtility.FromJson<GlobalLevelData>(
+    //    @"{
+    //        ""levels"": [
+    //            {
+    //                ""spawns"": 
+    //                    [
+    //                        {
+    //                            ""distance"": -50,
+    //                            ""positionX"": 2,
+    //                            ""name"": ""archer""
+    //                        }
+    //                        ,
+    //                        {
+    //                            ""distance"": -50,
+    //                            ""positionX"": -2,
+    //                            ""name"": ""archer""
+    //                        }
+    //                        ,
+    //                        {
+    //                            ""distance"": -53,
+    //                            ""positionX"": 4,
+    //                            ""name"": ""archer""
+    //                        }
+    //                        ,
+    //                        {
+    //                            ""distance"": -53,
+    //                            ""positionX"": -4,
+    //                            ""name"": ""archer""
+    //                        } 
+    //                        ,
+    //                        {
+    //                            ""distance"": -70,
+    //                            ""positionX"": 1,
+    //                            ""name"": ""swordsman""
+    //                        }
 
-                }
+    //                    ]
 
-            ]
-        }
-        "
-        );
+    //            }
+
+    //        ]
+    //    }
+    //    "
+    //    );
 
 
     [SerializeField]
@@ -84,6 +112,9 @@ public class WaveEnemeySpawner : MonoBehaviour {
 
         //Debug.Log(globalLevelData);
         //Debug.Log(a);
+
+        globalLevelData = JsonUtility.FromJson<GlobalLevelData>(ReadJsonFile("/Levels/GlobalLevelData.json"));
+
 
         curLevel = globalLevelData.levels[level];
 
@@ -145,7 +176,7 @@ public class WaveEnemeySpawner : MonoBehaviour {
         try
         {
             // open text file
-            StreamReader textReader = File.OpenText(Application.dataPath + "/Levels/" + filename);
+            StreamReader textReader = File.OpenText(Application.dataPath + filename);
 
             // read contents
             dataAsString = textReader.ReadToEnd();
