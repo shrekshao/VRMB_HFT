@@ -11,6 +11,8 @@ public class Arrow : MonoBehaviour {
     private bool flying;
     private bool falling;
 
+    public int damage = 1;
+
     private HitEffectPoolManager hitEffectPoolManager;
 
 	// Use this for initialization
@@ -97,7 +99,7 @@ public class Arrow : MonoBehaviour {
         if (other.CompareTag("Player"))
         {
             Debug.Log("Arrow hit player");
-            other.GetComponent<BloodScreen>().SetBloodVisible(true);
+            other.GetComponent<PlayerCharacter>().applyDamage(-damage);
 
             m_rigidBody.velocity.Set(0, 0, 0);
             flying = false;

@@ -163,6 +163,19 @@ public class WaveEnemeySpawner : MonoBehaviour {
     }
 
 
+    public void RestartLevel()
+    {
+        curSpawn = null;
+        curSpawnId = 0;
+
+        if (curSpawnId < curLevel.spawns.Count)
+        {
+            curSpawn = curLevel.spawns[curSpawnId];
+        }
+    }
+
+
+
     //public void LoadLevelJsonFile(string json_file)
     //{
     //    levelJSON = JSON.Parse(ReadJsonFile(json_file));

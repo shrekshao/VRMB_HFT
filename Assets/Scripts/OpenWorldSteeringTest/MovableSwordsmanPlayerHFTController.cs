@@ -38,12 +38,14 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
     private bool steering;
     private Quaternion steeringBaseRotation;
 
-
+    private bool dead = false;
 
     // temp ugly implementation
     [SerializeField]
     GameObject setBasePositionUI;
 
+    [SerializeField]
+    Vector3 startingPosition = new Vector3(0f, 2.65f, 0f);
 
 
     // Use this for initialization
@@ -99,7 +101,10 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
         Destroy(gameObject);
     }
 
-
+    public void SetDead(bool v)
+    {
+        dead = v;
+    }
 
     // Update is called once per frame
     void Update()
@@ -126,8 +131,12 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
                 parentPlayer.GetComponent<MovablePlayer>().enabled = true;
             }
         }
-        else
+        else if (!dead)
         {
+
+            
+
+
             
             if (m_hftInput.GetButton("fire2"))
             {
@@ -162,6 +171,26 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
             {
                 steering = false;
                 rope.SetActive(false);
+            }
+        }
+        else
+        {
+            if (m_hftInput.GetButton("fire1"))
+            {
+                GameObject.Find("DeathUI").SetActive(false);
+                
+                dead = false;
+
+                // reset parent player location
+                parentPlayer.transform.position = startingPosition;
+
+                parentPlayer.GetComponent<MovablePlayer>().enabled = true;
+
+                parentPlayer.BroadcastMessage("RestartLevel");
+
+                GameObject levelManager = GameObject.Find("LevelManager");
+                levelManager.SendMessage("UpdatePosition");
+                levelManager.SendMessage("RestartLevel");
             }
         }
 
