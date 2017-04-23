@@ -122,7 +122,10 @@ public class WaveEnemeySpawner : MonoBehaviour {
         {
             curSpawn = curLevel.spawns[curSpawnId];
         }
-        
+
+        EventDelegateManager.instance.restartLevelDelegate += OnRestartLevel;
+
+
     }
 	
 	// Update is called once per frame
@@ -163,7 +166,7 @@ public class WaveEnemeySpawner : MonoBehaviour {
     }
 
 
-    public void RestartLevel()
+    public void OnRestartLevel()
     {
         curSpawn = null;
         curSpawnId = 0;

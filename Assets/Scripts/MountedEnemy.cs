@@ -25,6 +25,9 @@ public class MountedEnemy : MonoBehaviour {
         //m_Animator.applyRootMotion = true;
 
         m_Rigidbody.velocity = new Vector3(0f, 0f, 4f);
+
+
+        EventDelegateManager.instance.restartLevelDelegate += OnRestartLevel;
     }
 
     // Update is called once per frame
@@ -53,4 +56,10 @@ public class MountedEnemy : MonoBehaviour {
     //        Destroy(gameObject);
     //    }
     //}
+
+
+    void OnRestartLevel()
+    {
+        Destroy(gameObject);
+    }
 }

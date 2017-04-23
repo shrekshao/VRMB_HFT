@@ -45,7 +45,7 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
     GameObject setBasePositionUI;
 
     [SerializeField]
-    Vector3 startingPosition = new Vector3(0f, 2.65f, 0f);
+    Vector3 startingPosition = new Vector3(0f, 2.46f, 0f);
 
 
     // Use this for initialization
@@ -92,7 +92,11 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
         //transform.position = parentPlayer.transform.FindChild("SwordCharacterPivot").position;
         movablePlayer = parentPlayer.GetComponent<MovablePlayer>();
 
-        
+
+
+        EventDelegateManager.instance.playerDieDelegate += OnDie;
+        EventDelegateManager.instance.restartLevelDelegate += OnRestartLevel;
+
     }
 
 
@@ -104,6 +108,17 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
     public void SetDead(bool v)
     {
         dead = v;
+    }
+
+
+    void OnDie()
+    {
+        dead = true;
+    }
+
+    void OnRestartLevel()
+    {
+        dead = false;
     }
 
     // Update is called once per frame
@@ -177,20 +192,23 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
         {
             if (m_hftInput.GetButton("fire1"))
             {
+                // restart level
+                EventDelegateManager.instance.restartLevelDelegate();
+
                 GameObject.Find("DeathUI").SetActive(false);
                 
-                dead = false;
+                //dead = false;
 
-                // reset parent player location
-                parentPlayer.transform.position = startingPosition;
+                //// reset parent player location
+                //parentPlayer.transform.position = startingPosition;
 
-                parentPlayer.GetComponent<MovablePlayer>().enabled = true;
+                //parentPlayer.GetComponent<MovablePlayer>().enabled = true;
 
-                parentPlayer.BroadcastMessage("RestartLevel");
+                //parentPlayer.BroadcastMessage("RestartLevel");
 
-                GameObject levelManager = GameObject.Find("LevelManager");
-                levelManager.SendMessage("UpdatePosition");
-                levelManager.SendMessage("RestartLevel");
+                //GameObject levelManager = GameObject.Find("LevelManager");
+                //levelManager.SendMessage("UpdatePosition");
+                //levelManager.SendMessage("RestartLevel");
             }
         }
 

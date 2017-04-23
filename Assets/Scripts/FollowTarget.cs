@@ -12,7 +12,10 @@ public class FollowTarget : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         offset = transform.position - target.position;
-	}
+
+        EventDelegateManager.instance.restartLevelDelegate += UpdatePosition;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

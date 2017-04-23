@@ -4,37 +4,37 @@
             "spawns": 
                 [
                     {
-                        "distance": -50,
-                        "positionX": 2,
-                        "name": "archer"
-                    }
-                    ,
-                    {
-                        "distance": -50,
-                        "positionX": -2,
-                        "name": "archer"
-                    }
-                    ,
-                    {
-                        "distance": -53,
+                        "distance": -60,
                         "positionX": 4,
                         "name": "archer"
                     }
                     ,
                     {
-                        "distance": -53,
+                        "distance": -60,
                         "positionX": -4,
+                        "name": "archer"
+                    }
+                    ,
+                    {
+                        "distance": -63,
+                        "positionX": 2,
+                        "name": "archer"
+                    }
+                    ,
+                    {
+                        "distance": -63,
+                        "positionX": -2,
                         "name": "archer"
                     }
                     , 
                     {
-                        "distance": -60,
+                        "distance": -70,
                         "positionX": -1,
                         "name": "swordsman"
                     }
                     ,
                     {
-                        "distance": -70,
+                        "distance": -80,
                         "positionX": 1,
                         "name": "swordsman"
                     }

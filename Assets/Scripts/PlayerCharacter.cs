@@ -25,7 +25,10 @@ public class PlayerCharacter : MonoBehaviour {
 	void Start () {
         m_bloodScreen = GetComponent<BloodScreen>();
         hp = hpMax;
-	}
+
+        EventDelegateManager.instance.restartLevelDelegate += OnRestartLevel;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -48,11 +51,15 @@ public class PlayerCharacter : MonoBehaviour {
     {
         Debug.Log("Player die");
         deathUI.SetActive(true);
-        armSwordController.SendMessage("SetDead", true);
-        parentPlayer.GetComponent<MovablePlayer>().enabled = false;
+
+
+        EventDelegateManager.instance.playerDieDelegate();
+
+        //armSwordController.SendMessage("SetDead", true);
+        //parentPlayer.GetComponent<MovablePlayer>().enabled = false;
     }
 
-    public void RestartLevel()
+    public void OnRestartLevel()
     {
         hp = hpMax;
     }
