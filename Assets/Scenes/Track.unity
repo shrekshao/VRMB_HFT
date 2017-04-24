@@ -8022,6 +8022,7 @@ MonoBehaviour:
   levelFileName: levels
   mountedEnemyPrefab: {fileID: 1644358082028828, guid: f15c0c863c95d2f4b951a45457a5ee80,
     type: 2}
+  target: {fileID: 1733108481}
 --- !u!4 &631816081
 Transform:
   m_ObjectHideFlags: 0
@@ -22165,6 +22166,7 @@ GameObject:
   - component: {fileID: 1886015211}
   - component: {fileID: 1886015210}
   - component: {fileID: 1886015213}
+  - component: {fileID: 1886015214}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -22228,6 +22230,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c3893dbab2661240989a5ad9bcbcac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1886015214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1886015209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1467cb8544a0a714a8e563c7880a3167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SetBaseRotationUI: {fileID: 1411855124}
+  DeathUI: {fileID: 1164962113}
 --- !u!1001 &1888013538
 Prefab:
   m_ObjectHideFlags: 0
@@ -22469,7 +22484,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpMax: 5
-  deathUI: {fileID: 1164962113}
   armSwordController: {fileID: 1994708831}
   parentPlayer: {fileID: 1733108481}
 --- !u!1001 &1908936484

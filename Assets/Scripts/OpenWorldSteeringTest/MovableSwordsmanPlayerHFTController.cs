@@ -194,8 +194,6 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
             {
                 // restart level
                 EventDelegateManager.instance.restartLevelDelegate();
-
-                GameObject.Find("DeathUI").SetActive(false);
                 
                 //dead = false;
 

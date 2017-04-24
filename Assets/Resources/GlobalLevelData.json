@@ -1,0 +1,41 @@
+{
+    "levels": [
+        {
+          "spawns": [
+            {
+              "distance": -3,
+              "positionX": 2,
+              "name": "archer"
+            },
+            {
+              "distance": -3,
+              "positionX": -2,
+              "name": "archer"
+            },
+            {
+              "distance": -8,
+              "positionX": 4,
+              "name": "archer"
+            },
+            {
+              "distance": -8,
+              "positionX": -4,
+              "name": "archer"
+            },
+            {
+              "distance": -15,
+              "positionX": -1,
+              "name": "swordsman"
+            },
+            {
+              "distance": -25,
+              "positionX": 1,
+              "name": "swordsman"
+            }
+
+          ]
+
+        }
+
+    ]
+}

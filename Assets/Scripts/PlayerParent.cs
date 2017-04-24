@@ -24,6 +24,7 @@ public class PlayerParent : MonoBehaviour {
     void OnRestartLevel()
     {
         transform.position = startingPosition;
+        transform.rotation = Quaternion.identity;
         movablePlayer.enabled = true;
     }
 

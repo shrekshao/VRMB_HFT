@@ -13,7 +13,7 @@ public class FollowTarget : MonoBehaviour {
 	void Start () {
         offset = transform.position - target.position;
 
-        EventDelegateManager.instance.restartLevelDelegate += UpdatePosition;
+        //EventDelegateManager.instance.restartLevelDelegate += UpdatePosition;
 
     }
 	
@@ -24,6 +24,7 @@ public class FollowTarget : MonoBehaviour {
 
     void UpdatePosition()
     {
+        // has problem with execute order
         transform.position = offset + target.position;
     }
 }

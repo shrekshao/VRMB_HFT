@@ -11,10 +11,6 @@ public class PlayerCharacter : MonoBehaviour {
 
     BloodScreen m_bloodScreen;
 
-
-    [SerializeField]
-    GameObject deathUI;
-
     [SerializeField]
     GameObject armSwordController;
 
@@ -50,8 +46,6 @@ public class PlayerCharacter : MonoBehaviour {
     public void executeDeath()
     {
         Debug.Log("Player die");
-        deathUI.SetActive(true);
-
 
         EventDelegateManager.instance.playerDieDelegate();
 

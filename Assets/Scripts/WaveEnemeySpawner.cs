@@ -90,6 +90,9 @@ public class WaveEnemeySpawner : MonoBehaviour {
     [SerializeField]
     GameObject mountedEnemyPrefab;
 
+    [SerializeField]
+    GameObject target;
+
 
     Dictionary<string, SoldierType> enemyTypeDict = new Dictionary<string, SoldierType>()
     {
@@ -113,8 +116,9 @@ public class WaveEnemeySpawner : MonoBehaviour {
         //Debug.Log(globalLevelData);
         //Debug.Log(a);
 
-        globalLevelData = JsonUtility.FromJson<GlobalLevelData>(ReadJsonFile("/Levels/GlobalLevelData.json"));
-
+        //globalLevelData = JsonUtility.FromJson<GlobalLevelData>(ReadJsonFile("/Levels/GlobalLevelData.json"));
+        TextAsset ta = Resources.Load("GlobalLevelData") as TextAsset;
+        globalLevelData = JsonUtility.FromJson<GlobalLevelData>(ta.text);
 
         curLevel = globalLevelData.levels[level];
 
@@ -133,7 +137,7 @@ public class WaveEnemeySpawner : MonoBehaviour {
         while (curSpawn != null)
         {
             // currently negative z direction
-            if (transform.position.z <= curSpawn.distance)
+            if (target.transform.position.z <= curSpawn.distance)
             {
                 spawnEnemey(curSpawn);
                 curSpawnId++;
