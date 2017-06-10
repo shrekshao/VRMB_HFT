@@ -5,12 +5,12 @@
             {
               "distance": -3,
               "positionX": 2,
-              "name": "archer"
+              "name": "spearman"
             },
             {
               "distance": -3,
               "positionX": -2,
-              "name": "archer"
+              "name": "spearman"
             },
             {
               "distance": -5,
@@ -25,17 +25,17 @@
             {
               "distance": -10,
               "positionX": 4,
-              "name": "archer"
+              "name": "spearman"
             },
             {
               "distance": -10,
               "positionX": -4,
-              "name": "archer"
+              "name": "spearman"
             },
             {
               "distance": -15,
               "positionX": -1,
-              "name": "swordsman"
+              "name": "spearman"
             },
             {
               "distance": -25,

@@ -35,8 +35,10 @@ class SpawnData
 
 public class WaveEnemeySpawner : MonoBehaviour {
 
-    public string levelFileName = "levels";
+    //public string levelFileName = "levels";
 
+    [SerializeField]
+    string levelFileName = "GlobalLevelData";
 
     static GlobalLevelData globalLevelData;
     //static JSONNode levelJSON = JSON.Parse(
@@ -97,7 +99,8 @@ public class WaveEnemeySpawner : MonoBehaviour {
     Dictionary<string, SoldierType> enemyTypeDict = new Dictionary<string, SoldierType>()
     {
         {"archer", SoldierType.Bowman },
-        {"swordsman", SoldierType.Swordsman }
+        {"swordsman", SoldierType.Swordsman },
+        {"spearman", SoldierType.Spearman }
     };
 
 
@@ -115,9 +118,8 @@ public class WaveEnemeySpawner : MonoBehaviour {
 
         //Debug.Log(globalLevelData);
         //Debug.Log(a);
+        TextAsset ta = Resources.Load(levelFileName) as TextAsset;
 
-        //globalLevelData = JsonUtility.FromJson<GlobalLevelData>(ReadJsonFile("/Levels/GlobalLevelData.json"));
-        TextAsset ta = Resources.Load("GlobalLevelData") as TextAsset;
         globalLevelData = JsonUtility.FromJson<GlobalLevelData>(ta.text);
 
         curLevel = globalLevelData.levels[level];

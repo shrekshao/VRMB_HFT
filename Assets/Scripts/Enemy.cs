@@ -35,6 +35,9 @@ public class Enemy : MonoBehaviour {
     GameObject bow;
 
     [SerializeField]
+    GameObject spear;
+
+    [SerializeField]
     GameObject rightHandArrow;   //place holder arrow used for draw bow animation
 
     [SerializeField]
@@ -101,12 +104,14 @@ public class Enemy : MonoBehaviour {
                 case SoldierType.Swordsman:
                     {
                         m_Animator.SetBool("isArcher", false);
+                        m_Animator.SetBool("isSpearman", false);
                         rightHandArrow.SetActive(false);
                         break;
                     }
                 case SoldierType.Bowman:
                     {
                         m_Animator.SetBool("isArcher", true);
+                        m_Animator.SetBool("isSpearman", false);
 
                         weapon.SetActive(false);
                         bow.SetActive(true);
@@ -115,6 +120,20 @@ public class Enemy : MonoBehaviour {
                         StartCoroutine(DrawBow());
                         break;
                     }
+                case SoldierType.Spearman:
+                    {
+                        m_Animator.SetBool("isArcher", false);
+                        m_Animator.SetBool("isSpearman", true);
+
+                        weapon.SetActive(false);
+                        bow.SetActive(false);
+                        spear.SetActive(true);
+
+                        break;
+                    }
+                default:
+                    Debug.LogWarning("soldierType is wrong");
+                    break;
             }
         }
         
@@ -134,6 +153,14 @@ public class Enemy : MonoBehaviour {
                     StopCoroutine(DrawBow());
                     break;
                 }
+            case SoldierType.Spearman:
+                {
+
+                    break;
+                }
+            default:
+                Debug.LogWarning("soldierType is wrong");
+                break;
         }
     }
 
