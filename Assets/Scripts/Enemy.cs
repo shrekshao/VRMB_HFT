@@ -105,7 +105,10 @@ public class Enemy : MonoBehaviour {
                     {
                         m_Animator.SetBool("isArcher", false);
                         m_Animator.SetBool("isSpearman", false);
-                        rightHandArrow.SetActive(false);
+
+                        weapon.SetActive(true);
+                        bow.SetActive(false);
+                        spear.SetActive(false);
                         break;
                     }
                 case SoldierType.Bowman:
@@ -348,26 +351,12 @@ public class Enemy : MonoBehaviour {
     {
         if (collision.collider.CompareTag("PlayerAttack") && !dead)
         {
-            // killed  by player
-            //Debug.Log(other.name);
-            UpdateDeathState();
-
-
-
-            transform.SetParent(null);
-            m_Rigidbody.useGravity = true;
-            //m_Rigidbody.velocity = 20f * Vector3.back;
-            //m_Rigidbody.AddForce(100f * Vector3.back + 10f * Vector3.up, ForceMode.Impulse);
-            //m_Rigidbody.AddForce(10f * Vector3.back, ForceMode.Force);\
-            m_Animator.SetLayerWeight(1, 0);
-            //m_Animator.SetTrigger("Damaged");
-            m_Animator.SetTrigger("Death");
-
-
             //hitEffect.transform.position = other.gameObject.transform.FindChild("SwordMidPoint").transform.position;
             hitEffect.transform.position = collision.contacts[0].point;
             hitEffect.GetComponent<ParticleSystem>().Play();
             hitEffect.GetComponent<AudioSource>().Play();
+
+            executeDeath();
         }
     }
 
@@ -414,6 +403,31 @@ public class Enemy : MonoBehaviour {
     {
         yield return new WaitForSeconds(2);
         weapon.GetComponent<Collider>().enabled = e;
+    }
+
+
+
+    public void executeDeath()
+    {
+        // killed  by player
+        //Debug.Log(other.name);
+        UpdateDeathState();
+        
+        transform.SetParent(null);
+        m_Rigidbody.useGravity = true;
+        //m_Rigidbody.velocity = 20f * Vector3.back;
+        //m_Rigidbody.AddForce(100f * Vector3.back + 10f * Vector3.up, ForceMode.Impulse);
+        //m_Rigidbody.AddForce(10f * Vector3.back, ForceMode.Force);\
+        m_Animator.SetLayerWeight(1, 0);
+        //m_Animator.SetTrigger("Damaged");
+        m_Animator.SetTrigger("Death");
+        
+    }
+
+    public void executeGetBlocked()
+    {
+        m_Animator.SetLayerWeight(1, 0);
+        m_Animator.SetTrigger("Damaged");
     }
 
 }

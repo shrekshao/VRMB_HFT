@@ -40,10 +40,6 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
 
     private bool dead = false;
 
-    // temp ugly implementation
-    [SerializeField]
-    GameObject setBasePositionUI;
-
     [SerializeField]
     Vector3 startingPosition = new Vector3(0f, 2.46f, 0f);
 
@@ -127,7 +123,10 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
 
         if (!recentered)
         {
-            if (m_hftInput.GetButtonDown("fire1"))
+            // at the start preparing menu
+            // (hft controller the first click doesn't respond? why?
+
+            if (m_hftInput.GetButton("fire1"))
             {
                 // adjust sword 
                 //inverseBaseRotation = Camera.main.transform.rotation * Quaternion.Euler(0f, -180f, 0f) 
@@ -139,19 +138,27 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
 
                 //recentered = true;
             }
-            else if (m_hftInput.GetButtonDown("fire2"))
+            else if (m_hftInput.GetButton("fire2"))
             {
                 recentered = true;
-                setBasePositionUI.SetActive(false);
                 parentPlayer.GetComponent<MovablePlayer>().enabled = true;
+                EventDelegateManager.instance.restartLevelDelegate();
+            }
+
+
+
+            // Debug Purpose: start the game without mobile phone 
+
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                recentered = true;
+                parentPlayer.GetComponent<MovablePlayer>().enabled = true;
+                EventDelegateManager.instance.restartLevelDelegate();
             }
         }
         else if (!dead)
         {
-
-            
-
-
+            // during the game
             
             if (m_hftInput.GetButton("fire2"))
             {
@@ -190,6 +197,8 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
         }
         else
         {
+            // at the game over menu
+
             if (m_hftInput.GetButton("fire1"))
             {
                 // restart level

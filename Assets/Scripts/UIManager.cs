@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         EventDelegateManager.instance.restartLevelDelegate += HideDeathUI;
+        EventDelegateManager.instance.restartLevelDelegate += HideBaseRotationUI;
         EventDelegateManager.instance.playerDieDelegate += ShowDeathUI;
     }
 	
@@ -31,5 +32,10 @@ public class UIManager : MonoBehaviour {
     void HideDeathUI()
     {
         DeathUI.SetActive(false);
+    }
+
+    void HideBaseRotationUI()
+    {
+        SetBaseRotationUI.SetActive(false);
     }
 }
