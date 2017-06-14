@@ -62,4 +62,9 @@ public class MountedEnemy : MonoBehaviour {
     {
         Destroy(gameObject);
     }
+
+    void OnDestroy()
+    {
+        EventDelegateManager.instance.restartLevelDelegate -= this.OnRestartLevel;
+    }
 }
