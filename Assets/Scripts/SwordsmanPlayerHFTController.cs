@@ -36,12 +36,12 @@ public class SwordsmanPlayerHFTController : MonoBehaviour {
         m_gamepad = GetComponent<HFTGamepad>();
         m_hftInput = GetComponent<HFTInput>();
 
-        ikHandler = transform.FindChild("IkHandler");
-        hand = ikHandler.FindChild("Hand");
+        ikHandler = transform.Find("IkHandler");
+        hand = ikHandler.Find("Hand");
 
-        swordEnd = sword.FindChild("End");
-        handSwordPlaceHolder = handJoint.FindChild("SwordPlaceHolder");
-        handJointUp = handJoint.FindChild("Up");
+        swordEnd = sword.Find("End");
+        handSwordPlaceHolder = handJoint.Find("SwordPlaceHolder");
+        handJointUp = handJoint.Find("Up");
 
         debugController = GameObject.Find("Capsule").transform;
 

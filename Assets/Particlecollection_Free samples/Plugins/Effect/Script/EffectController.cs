@@ -87,7 +87,7 @@ public class EffectController : MonoBehaviour {
 	public void UpdateEffectTransformByIndex(int nIndex)
 	{
 		/// 取得特效資料.
-		Transform tf = this.transform.FindChild (nIndex.ToString());
+		Transform tf = this.transform.Find (nIndex.ToString());
 		if (tf == null)
 			return;
 		EffectData effectData = m_kEffectGenList[nIndex];

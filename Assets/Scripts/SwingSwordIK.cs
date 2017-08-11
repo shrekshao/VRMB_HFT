@@ -16,7 +16,7 @@ public class SwingSwordIK : MonoBehaviour {
     void Start()
     {
         animator = GetComponent<Animator>();
-        ikHandler = transform.FindChild("IkHandler");
+        ikHandler = transform.Find("IkHandler");
     }
 
     //a callback for calculating IK

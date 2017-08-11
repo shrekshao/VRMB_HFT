@@ -50,10 +50,10 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
         m_gamepad = GetComponent<HFTGamepad>();
         m_hftInput = GetComponent<HFTInput>();
 
-        ikHandler = transform.FindChild("IkHandler");
+        ikHandler = transform.Find("IkHandler");
         //sword = ikHandler.FindChild("SwordParent");
-        sword = transform.FindChild("SwordParent");
-        hand = ikHandler.FindChild("Hand");
+        sword = transform.Find("SwordParent");
+        hand = ikHandler.Find("Hand");
 
         
 
@@ -82,7 +82,7 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
 
         // TEST: attach as child of player (horse)
         steering = false;
-        rope = sword.FindChild("Rope").gameObject;
+        rope = sword.Find("Rope").gameObject;
         parentPlayer = GameObject.Find("Player");
         //transform.SetParent(parentPlayer.transform);
         //transform.position = parentPlayer.transform.FindChild("SwordCharacterPivot").position;
@@ -177,11 +177,14 @@ public class MovableSwordsmanPlayerHFTController : MonoBehaviour {
                 }
                 else
                 {
-
+                    
                     float steer = Mathf.DeltaAngle(steeringBaseRotation.eulerAngles.z, m_hftInput.gyro.attitude.eulerAngles.z);
-                    //Debug.Log(steer);
 
-                    movablePlayer.Steer( Mathf.Clamp( steer / 45f, -1f, 1f  ) );
+                    // rotate
+                    // movablePlayer.Steer( Mathf.Clamp( steer / 45f, -1f, 1f  ) );
+
+                    // translate
+                    movablePlayer.Translate( Mathf.Clamp(steer / 30f, -1f, 1f) );
                 }
 
 

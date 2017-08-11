@@ -32,4 +32,9 @@ public class MovablePlayer : MonoBehaviour {
         //velocityDirection = Quaternion.AngleAxis(deltaAngle, Vector3.up) * velocityDirection;
         transform.Rotate(transform.up, deltaAngle);
     }
+
+    public void Translate(float delta)
+    {
+        transform.position += transform.right * -delta * 0.1f;
+    }
 }

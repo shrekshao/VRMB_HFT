@@ -35,10 +35,10 @@ public class OldSwordsmanPlayerHFTController : MonoBehaviour {
         m_gamepad = GetComponent<HFTGamepad>();
         m_hftInput = GetComponent<HFTInput>();
 
-        ikHandler = transform.FindChild("IkHandler");
+        ikHandler = transform.Find("IkHandler");
         //sword = ikHandler.FindChild("SwordParent");
-        sword = transform.FindChild("SwordParent");
-        hand = ikHandler.FindChild("Hand");
+        sword = transform.Find("SwordParent");
+        hand = ikHandler.Find("Hand");
 
         int playerNdx = s_playerCount++;
 
