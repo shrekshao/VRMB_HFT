@@ -24,7 +24,7 @@ public class MountedEnemy : MonoBehaviour {
 
         //m_Animator.applyRootMotion = true;
 
-        m_Rigidbody.velocity = new Vector3(0f, 0f, 4f);
+        //m_Rigidbody.velocity = new Vector3(0f, 0f, 4f);
 
 
         EventDelegateManager.instance.restartLevelDelegate += OnRestartLevel;

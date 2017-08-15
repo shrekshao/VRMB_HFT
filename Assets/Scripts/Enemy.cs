@@ -184,7 +184,8 @@ public class Enemy : MonoBehaviour {
                     //Vector3 targetPosition = new Vector3(player.position.x, lookAtBone.position.y, player.position.z);
                     Vector3 targetPosition = new Vector3(player.position.x, m_Animator.rootPosition.y, player.position.z);
 
-                    m_Animator.SetLookAtWeight(1, 1, 0, 0);
+                    //m_Animator.SetLookAtWeight(1, 1, 0, 0);
+                    m_Animator.SetLookAtWeight(1, 0.5f, 1, 0, 0.2f);
                     m_Animator.SetLookAtPosition(player.position);
                 }
                 
