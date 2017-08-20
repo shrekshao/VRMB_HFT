@@ -21,10 +21,10 @@ public class MovablePlayer : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //transform.position = transform.position + velocityDirection * velocityMagnitude;
-        transform.position = transform.position + (-transform.forward) * velocityMagnitude;
+        //transform.position = transform.position + (-transform.forward) * velocityMagnitude;
 
-        //m_rigidBody.velocity = -transform.forward * velocityMagnitude;
-        
+        m_rigidBody.velocity = -transform.forward * velocityMagnitude;
+
     }
 
     public void Steer(float deltaAngle)
@@ -35,6 +35,7 @@ public class MovablePlayer : MonoBehaviour {
 
     public void Translate(float delta)
     {
-        transform.position += transform.right * -delta * 0.1f;
+        //transform.position += transform.right * -delta * 0.1f;
+        transform.position += transform.right * -delta * 3f * Time.deltaTime;
     }
 }
